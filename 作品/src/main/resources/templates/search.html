@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Search files fom IPFS from Browser</title>
+		<!-- <link rel="stylesheet" href="./zTree/css/demo.css" type="text/css"> -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="zTree/css/metroStyle/metroStyle.css" type="text/css">
+		<link rel="stylesheet" href="css/style.css?v0.1" type='text/css'>
+		<link rel="stylesheet" href="css/upload-utilities.css?v0.1" type='text/css'>
+		<link rel="stylesheet" href="css/node-menu.css?v0.1" type='text/css'>
+		<script src='js/jquery.min.js'></script>
+		<script src="js/ipfs-http-client.js"></script>
+		<script src="js/buffer.js"></script>
+		<script src="config.js?v0.1"></script> <!-- read config.js before upload.js -->
+
+	</head>
+
+	<body>
+		<div class="b-nav">
+			<nav>
+				<a href="#" title="home">
+					<h1>Search from <img src="img/ipfs.png" style="margin: 0 2px">  Browser -
+						Panel</h1>
+				</a>
+				<ul>
+					<li><a href="#">HOME
+							<svg class="svg svg-info" role="img" aria-label="Info" focusable="false"
+								style="height: 1.2em; width: 1.2em; display: block; float: right; margin: -2px 0 0 5px; ;"
+								viewBox="0 0 24 24">
+								<path
+									d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-.001 5.75c.69 0 1.251.56 1.251 1.25s-.561 1.25-1.251 1.25-1.249-.56-1.249-1.25.559-1.25 1.249-1.25zm2.001 12.25h-4v-1c.484-.179 1-.201 1-.735v-4.467c0-.534-.516-.618-1-.797v-1h3v6.265c0 .535.517.558 1 .735v.999z" />
+							</svg>
+						</a>
+					</li>
+					<!-- <li><a href="upload.html" target="_blank">UPLOAD FILE
+							<svg class="svg svg-gateways" role="img" aria-label="Info" focusable="false"
+								style="height: 1.2em; width: 1.2em; display: block; float: right; margin: -2px 0 0 2px; ;"
+								version="1.0" viewBox="0 0 512.000000 512.000000">
+								<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none">
+									<path d="M3530 4291 c-169 -54 -304 -204 -341 -378 -25 -125 4 -276 75 -381
+									l32 -48 -323 -402 -324 -402 -364 0 c-350 0 -365 1 -365 19 0 33 -68 155 -113
+									202 -106 111 -217 159 -372 159 -79 0 -114 -5 -166 -24 -163 -57 -285 -192
+									-324 -357 -60 -256 77 -508 323 -595 95 -33 239 -33 334 0 132 47 246 153 299
+									280 l23 56 366 0 367 0 299 -382 c164 -210 304 -389 311 -398 10 -14 5 -31
+									-28 -97 -142 -276 -12 -606 279 -709 95 -33 239 -33 334 0 245 86 383 340 323
+									594 -39 167 -160 300 -323 358 -81 29 -229 33 -308 9 -27 -8 -50 -15 -51 -15
+									-6 0 -598 763 -600 773 -1 7 137 183 306 392 267 329 311 380 332 377 13 -2
+									74 -6 134 -9 95 -4 119 -2 175 17 167 55 295 194 335 361 60 255 -78 509 -324
+									595 -84 30 -236 32 -321 5z" />
+								</g>
+							</svg>
+
+						</a></li> -->
+				</ul>
+			</nav>
+		</div>
+		<div id="content">
+			<div id="wrapper">
+				
+
+<!-- <div class="input-group col-md-3" style="margin-top:0px positon:relative">       <input type="text" class="form-control"placeholder="请输入字段名" / >            <span class="input-group-btn">               <button class="btn btn-info btn-search">查找</button>               <button class="btn btn-info btn-search" style="margin-left:3px">添加</button>            </span> </div>
+				 -->
+
+
+				<style type="text/css">
+					#search { 
+					    width: 440px;
+					    height: 40px;
+					    border:none;    /*取消默认的边框以设置自定义边框*/
+					    outline:none;   /*取消浏览器默认的蓝光边框以设置自定义的输入框*/
+					    font-size: 16px;        /*设置提示文字的字体大小*/
+					    color: rgb(112, 112, 112);   /*设置提示文字颜色*/
+					    margin-left: 10px;    /*给输入框与左边放大镜图标10px的间距*/
+					}
+
+					#search { 
+					    width: 440px;
+					    height: 40px;
+					    border:none;    /*取消默认的边框以设置自定义边框*/
+					    outline:none;   /*取消浏览器默认的蓝光边框以设置自定义的输入框*/
+					    font-size: 16px;        
+					    color: rgb(112, 112, 112);
+					    margin-left: 10px;
+					}
+					.searchbar {        /*目的是设置自定义边框，比如圆角与阴影*/
+					    border: rgb(218, 218, 218) solid 1px;
+					    border-radius: 2em;
+					    width: 552px;
+					    height: 42px;
+					    box-shadow: 0px 0px 5px rgb(212, 212, 212);
+					    margin: 0 auto;
+					}
+
+					.mcp {
+					    height: 35px;
+					}
+
+					.mg {
+					    height: 25px;
+					    margin-left: 15px;
+					}
+					#search, .mcp, .mg {
+					    vertical-align: middle;
+					}
+					#search, .mcp, .mg {
+					    vertical-align: middle;
+					}
+					.searchbar {     
+					    border: rgb(218, 218, 218) solid 1px;
+					    border-radius: 2em;    /*左右边框为半圆*/
+					    width: 552px;
+					    height: 42px;
+					    box-shadow: 0px 0px 5px rgb(212, 212, 212);
+					    margin: 0 auto;  /*重要！整个搜索框居中对齐*/
+					}
+
+
+
+				</style>
+				 <div class="searchbar">
+				        <img src=img/search.png class="mg">
+				        <input type="text" id="search" value="Search file on Smart Contract" 
+				        onfocus="if(value=='Search file on Smart Contract')value=''"
+				        onblur="if(!value)value='Search file on Smart Contract'" 
+				        name="keyword" onkeydown="entersearch1(event)" >  
+				        <img src=img/microphone.png class="mcp">
+				</div>
+
+				<div id="content">
+					<div id="wrapper">
+						<table class="table table-striped">
+							<style type="text/css">
+									table,td {
+										text-align: center;
+										vertical-align:middle;
+										/*border-style: solid;*/
+										/*display: flex;*/
+									}
+							</style>
+						  <thead>
+						     <!-- <th>File</th>
+						     <th>Hash</th>
+						     <th>Time</th> -->
+						  </thead>
+							  <tbody>
+							  </tbody>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+
+	function download() {
+		url = "http://localhost:8080/download?hash=" + $("#hash").text();
+		window.location.href = url;
+		// alert("asd");
+		console.log()
+	}
+	
+	function entersearch1(event){  
+	    if (event.keyCode == 13) {  
+			$.ajax({
+			    url: "http://localhost:8080/search?" + "kw" + "=" + $("input").val(),
+			    type: "Get",
+			    async: false,
+			    processData: false,
+
+			    success: function(returndata){
+			      // alert(returndata);
+			      // 
+			      
+				  if($('th').length == 0){
+				  	th = $('<th>File</th><th>Hash</th><th>Time</th>');
+				  	$('thead').append(th);
+				  }
+
+			      console.log(returndata);
+			      $("tr").remove();
+			      for(i=0; i<returndata.length; i++){
+			      	filename = returndata[i];
+			      	items = filename.split("_");
+			      	tr = $("<tr id='filelist'></tr>");
+			  //     	td1 = $('<td width="100px" style="display: flex; justify-content: center;"></td>');
+			  //     	img = $('<img src="./img/file.png" width="20px" height="20px" style="display:table-cell; align-item: center;">');
+			  //     	span = $('<span style="display:table-cell; text-align: center; vertical-align: center; align-item: center;"></span>');
+			  //     	td2 = $('<td width="500px" text-align="center" vertical-align="center"></td>');
+					// td3 = $('<td width="100px"></td>');
+					td1 = $('<td style="display: flex; justify-content: center;"></td>');
+			      	img = $('<img src="img/file.png" width="15px" height="15px" style="display:table-cell; align-item: center;">');
+			      	span = $('<span style="display:table-cell; text-align: center; vertical-align: center; align-item: center;"></span>');
+			      	td2 = $('<td text-align="center" vertical-align="center" id="hash"></td>');
+					td3 = $('<td></td>');
+
+					tr.on('click', function () {
+						download();
+					});
+					tr.hover(function () {
+						pre = $(this).css("background-color");
+						$(this).css("background-color", "yellow");
+					}, function () {
+						$(this).css("background-color", pre);
+					});
+					fielData = new Date(Number(items[1]));
+					time = fielData.getFullYear() + "-" + (fielData.getMonth()+1) + "-" + fielData.getDate() + " " + fielData.getHours() + ":" + fielData.getMinutes();
+					console.log(fielData.getFullYear());
+
+					span.text(items[0] + "." + items[2].split(".")[1]);
+					td2.text(items[2].split(".")[0]);
+					td3.text(time);
+					console.log(items[0], items[1], items[2]);
+					td1.append(img);
+					td1.append(span);
+					tr.append(td1);
+					tr.append(td2);
+					tr.append(td3);
+					$("tbody").append(tr);
+			      }
+			    },
+			    error: function(returndata){
+			      // alert(returndata);
+			      console.log(returndata);
+			      response = returndata;
+			    }
+			});
+        }  
+	}
+	var pre;
+	$("table tr").hover(function () {
+		pre = $(this).css("background-color");
+		$(this).css("background-color", "yellow");
+	}, function () {
+		$(this).css("background-color", pre);
+	});
+	</script>
+</html>
